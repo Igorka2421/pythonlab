@@ -1,49 +1,27 @@
-class Restaurant:
-    def __init__(self, name="", rating=0, max_capacity=0, current_capacity=0):
-        self.name = name
-        self.rating = rating
+from abc import ABC, abstractmethod
+
+class Restaurant(ABC):
+    def __init__(self, name, year_of_foundation, max_capacity, rating, opening_time, closing_time):
+        super().__init__(name, max_capacity, rating)
+        self.year_of_foundation = year_of_foundation
         self.max_capacity = max_capacity
-        self.current_capacity = current_capacity
-
-    def acceptReservation(self, num_of_guests):
-        if self.current_capacity + num_of_guests > self.max_capacity:
-            return False
+        self.rating = rating
+        self.opening_time = opening_time
+        self.closing_time = closing_time
+        self.current_capacity = 0
+    
+    abstractmethod
+    def add_guests(self, guests):
+        if self.current_capacity + guests > self.max_capacity:
+            print("Cannot add guests. The restaurant is full.")
         else:
-            self.current_capacity += num_of_guests
-            return True
-
-    def removeReservation(self, num_of_guests):
-        if self.current_capacity - num_of_guests < 0:
-            return False
-        else:
-            self.current_capacity -= num_of_guests
-            return True
-
-    staticmethod
-    def getInstence():
-        Instence = Restaurant()
-
-    def __str__ (self):
-        return f"name: {self.name}, Rating: {self.rating}, max_capacity:" 
-        f"{self.max_capacity}, current_capacity: {self.current_capacity}"
-
-if __name__ == "__main__":
-    restaurant = Restaurant("Victor", 5, 100, 54)
-
-    print(restaurant.acceptReservation(5))  
-    print(restaurant.removeReservation(5))  
+            self.current_capacity += guests
+    @abstractmethod
+    def kitchen_type(self):
+        return "Restaurant kitchen"
+    
+    def __str__(self):
+        return f"Name: {self.name}, Year of Foundation: {self.year_of_foundation}, Max Capacity: {self.max_capacity},"\
+           f"Rating: {self.rating}, Opening Time: {self.opening_time}, Closing Time: {self.closing_time}, Current Capacity: {self.current_capacity}"
 
 
-    restaurants = []
-
-    restaurants.append(Restaurant())
-    restaurants.append(Restaurant("Victo", 5, 100, 54))
-    restaurants.append(Restaurant())
-    restaurants.append(Restaurant())
-
-    for restaurant in restaurants:
-        print(restaurant)
-
-
-
-      
